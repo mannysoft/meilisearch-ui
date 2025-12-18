@@ -59,10 +59,19 @@ export const TaskList: FC<{
 				render: (_, item) => {
 					if (!item.duration) {
 						if (item.status === "processing" || item.status === "enqueued") {
+							const startDate = item.startedAt || item.enqueuedAt;
+							if (startDate) {
+								return (
+									<div className="flex items-center gap-2">
+										<Loader size="sm" />
+										<CountUp start={startDate} />
+									</div>
+								);
+							}
 							return (
 								<div className="flex items-center gap-2">
 									<Loader size="sm" />
-									<CountUp start={item.startedAt || item.enqueuedAt} />
+									<span>-</span>
 								</div>
 							);
 						}

@@ -21,15 +21,26 @@ export const getTimeText = (
 		defaultText?: string;
 	} = {},
 ): string => {
-	if (!date && defaultText) {
+	if (date == null || date === "") {
 		return defaultText;
 	}
-	return dayjs(date).format(format);
+	const dayjsDate = dayjs(date);
+	if (!dayjsDate.isValid()) {
+		return defaultText;
+	}
+	return dayjsDate.format(format);
 };
 
 // get time ago
 export const getTimeAgo = (date: dayjs.ConfigType): string => {
-	return dayjs(date).fromNow();
+	if (date == null || date === "") {
+		return "-";
+	}
+	const dayjsDate = dayjs(date);
+	if (!dayjsDate.isValid()) {
+		return "-";
+	}
+	return dayjsDate.fromNow();
 };
 
 // get duration
@@ -51,6 +62,9 @@ export const stringifyJsonPretty = (json?: string | object | null) => {
  * if the string is a unix timestamp, it will be converted to a date
  */
 export function isValidDateTime(str: string): Date | false {
+	if (str == null || str === "") {
+		return false;
+	}
 	if (dayjs(str).isValid()) {
 		if (/^\d+$/g.test(str) && str.length < 13) {
 			// unix timestamp

@@ -103,6 +103,27 @@ export const ValueDisplay = ({
 	value: unknown;
 	dateParser?: boolean;
 }) => {
+	// Handle null/undefined values early
+	if (value == null) {
+		return (
+			<div
+				className="cursor-pointer"
+				onClick={() => {
+					Modal.info({
+						title: name,
+						centered: true,
+						size: "large",
+						content: <ValueContent str="null" />,
+						// use a empty div as footer to hide the default btn footer and maintain the padding height for the content
+						footer: <div />,
+					});
+				}}
+			>
+				-
+			</div>
+		);
+	}
+
 	let str = _.toString(value).trim();
 
 	if (_.isObjectLike(value)) {
