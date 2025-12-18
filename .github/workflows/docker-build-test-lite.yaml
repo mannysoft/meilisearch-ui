@@ -1,7 +1,7 @@
 name: docker-build-test-lite
 
 env:
-  REGISTRY_IMAGE: riccoxie/meilisearch-ui
+  REGISTRY_IMAGE: eyeix/meilisearch-ui
 
 on:
   push:

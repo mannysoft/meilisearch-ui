@@ -8,11 +8,11 @@ export const Copyright: FC = () => {
 			{`${t("powered_by")} `}
 			<a
 				className={"hover:underline"}
-				href={"https://riccox.com"}
+				href={"https://github.com/eyeix"}
 				target="_blank"
 				rel="noreferrer"
 			>
-				Ricco Xie
+				Eyeix
 			</a>
 		</div>
 	);

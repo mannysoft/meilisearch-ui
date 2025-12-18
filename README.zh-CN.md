@@ -2,14 +2,14 @@
 
 中文 ｜ [ENGLISH](./README.md)
 
-<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml)</a>
-<a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
-![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
-<a href="https://github.com/riccox/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)</a>
-![last-commit](https://img.shields.io/github/last-commit/riccox/meilisearch-ui)
-<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)</a>
-<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)</a>
-<a href="https://github.com/riccox/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/riccox/meilisearch-ui)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/eyeix/meilisearch-ui/docker-build-release.yaml)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/eyeix/meilisearch-ui?display_name=release)</a>
+![stars](https://img.shields.io/github/stars/eyeix/meilisearch-ui)
+<a href="https://github.com/eyeix/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/eyeix/meilisearch-ui)</a>
+![last-commit](https://img.shields.io/github/last-commit/eyeix/meilisearch-ui)
+<a href="https://hub.docker.com/r/eyeix/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/eyeix/meilisearch-ui?label=image%20version&sort=semver)</a>
+<a href="https://hub.docker.com/r/eyeix/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/eyeix/meilisearch-ui)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/eyeix/meilisearch-ui)</a>
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -64,21 +64,21 @@ Nginx 示例:
 
 ### 在线使用
 
-这里有一个线上使用 Vercel 部署的示例 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com).
+这里有一个线上使用 Vercel 部署的示例 👉 [meilisearch-ui](https://meilisearch-ui.vercel.app).
 
 ### Docker
 
 ```sh
-docker pull riccoxie/meilisearch-ui:latest
+docker pull eyeix/meilisearch-ui:latest
 
-docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 eyeix/meilisearch-ui:latest
 ```
 
 #### 轻量版镜像
 
 由于适配自定义路径等功能，主镜像体积会成为部分使用者的负担。如果你只需要使用这个应用程序的基本功能，你可以使用`lite`变体镜像，它只包含了必要的构建物，体积相对于主镜像来说非常小。
 
-具体镜像变体请参考[镜像版本列表](https://hub.docker.com/r/riccoxie/meilisearch-ui/tags)
+具体镜像变体请参考[镜像版本列表](https://hub.docker.com/r/eyeix/meilisearch-ui/tags)
 
 lite 镜像不支持以下功能：
 
@@ -90,27 +90,27 @@ lite 镜像不支持以下功能：
 
 只需点击下面的按钮即可自动部署此应用程序
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friccox%2Fmeilisearch-ui&project-name=meilisearch-ui)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Feyeix%2Fmeilisearch-ui&project-name=meilisearch-ui)
 
 ## 配置
 
 ### 基本路径 Base Path
 
-参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/40).
+参考这个[问题](https://github.com/eyeix/meilisearch-ui/issues/40).
 
 你可以通过设置`BASE_PATH`环境变量来配置基本路径。
 
 例如，如果你想将这个应用程序部署到`/meilissearch-ui`路径，你可以将`BASE_PATH `环境变量设置为`/meilissearch-ui`。
 
 ```sh
-docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" eyeix/meilisearch-ui:latest
 ```
 
 
 
 ### 单实例模式 Singleton mode
 
-参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/43).
+参考这个[问题](https://github.com/eyeix/meilisearch-ui/issues/43).
 
 如果你想在这个应用中只使用一个 Meilisearch 实例，你可以通过以下两种方式启用单例模式：
 
@@ -125,7 +125,7 @@ docker run -d --restart=on-failure:5 \
   -e SINGLETON_MODE=true \
   -e SINGLETON_HOST=your-meilisearch-host \
   -e SINGLETON_API_KEY=your-api-key \
-  riccoxie/meilisearch-ui:latest
+  eyeix/meilisearch-ui:latest
 ```
 
 > [!CAUTION]
@@ -141,7 +141,7 @@ docker run -d --restart=on-failure:5 \
 1.克隆此仓库：
 
 ```sh
-git clone git@github.com:riccox/meilisearch-ui.git --depth=1
+git clone git@github.com:eyeix/meilisearch-ui.git --depth=1
 ```
 
 2.进入仓库根目录：
@@ -168,7 +168,7 @@ VITE_SINGLETON_API_KEY=your-api-key
 >
 > **安全风险**
 >
-> 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/161).
+> 参考这个[问题](https://github.com/eyeix/meilisearch-ui/issues/161).
 >
 > `.env.local` 文件仅限本地，你应该在你的 `.gitignore` 中添加它以避免被git记录。
 >
@@ -212,7 +212,7 @@ ALLOWED_HOSTS=demo.ddev.site,another.domain.com
 > 先安装 [pnpm](https://pnpm.io/installation).
 
 ```sh
-git clone git@github.com:riccox/meilisearch-ui.git
+git clone git@github.com:eyeix/meilisearch-ui.git
 
 cd meilisearch-ui
 

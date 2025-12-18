@@ -2,14 +2,14 @@
 
 ENGLISH ｜ [中文](./README.zh-CN.md)
 
-<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml)</a>
-<a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
-![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
-<a href="https://github.com/riccox/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)</a>
-![last-commit](https://img.shields.io/github/last-commit/riccox/meilisearch-ui)
-<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)</a>
-<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)</a>
-<a href="https://github.com/riccox/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/riccox/meilisearch-ui)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/eyeix/meilisearch-ui/docker-build-release.yaml)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/eyeix/meilisearch-ui?display_name=release)</a>
+![stars](https://img.shields.io/github/stars/eyeix/meilisearch-ui)
+<a href="https://github.com/eyeix/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/eyeix/meilisearch-ui)</a>
+![last-commit](https://img.shields.io/github/last-commit/eyeix/meilisearch-ui)
+<a href="https://hub.docker.com/r/eyeix/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/eyeix/meilisearch-ui?label=image%20version&sort=semver)</a>
+<a href="https://hub.docker.com/r/eyeix/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/eyeix/meilisearch-ui)</a>
+<a href="https://github.com/eyeix/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/eyeix/meilisearch-ui)</a>
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -64,21 +64,21 @@ ex:
 
 ### Online use
 
-There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
+There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.vercel.app), deploy on Vercel.
 
 ### Docker
 
 ```sh
-docker pull riccoxie/meilisearch-ui:latest
+docker pull eyeix/meilisearch-ui:latest
 
-docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 eyeix/meilisearch-ui:latest
 ```
 
 #### Lightweight mirror image
 
 Due to functions such as adapting custom paths, the main image size will become a burden for some users. If you only need to use the basic functionality of the application, you can use the `lite` variant image, which contains only the necessary constructs and is very small compared to the main image.
 
-For specific image variants, please refer to [Image version list](https://hub.docker.com/r/riccoxie/meilisearch-ui/tags)
+For specific image variants, please refer to [Image version list](https://hub.docker.com/r/eyeix/meilisearch-ui/tags)
 
 lite images do not support the following features:
 
@@ -91,27 +91,27 @@ with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme)
 
 Just one click the button below to deploy this app automatically
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friccox%2Fmeilisearch-ui&project-name=meilisearch-ui)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Feyeix%2Fmeilisearch-ui&project-name=meilisearch-ui)
 
 ## Configures
 
 ### Base Path
 
-See this [issue](https://github.com/riccox/meilisearch-ui/issues/40).
+See this [issue](https://github.com/eyeix/meilisearch-ui/issues/40).
 
 You can configure the base path of this app by setting the `BASE_PATH` environment variable.
 
 For example, if you want to deploy this app to the `/meilisearch-ui` path, you can set the `BASE_PATH` environment variable to `/meilisearch-ui`.
 
 ```sh
-docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" eyeix/meilisearch-ui:latest
 ```
 
 
 
 ### Singleton mode
 
-See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
+See this [issue](https://github.com/eyeix/meilisearch-ui/issues/43).
 
 If you want to use this app with only one meilisearch instance, you can enable the singleton mode in two ways:
 
@@ -126,7 +126,7 @@ docker run -d --restart=on-failure:5 \
   -e SINGLETON_MODE=true \
   -e SINGLETON_HOST=your-meilisearch-host \
   -e SINGLETON_API_KEY=your-api-key \
-  riccoxie/meilisearch-ui:latest
+  eyeix/meilisearch-ui:latest
 ```
 
 > [!CAUTION]
@@ -142,7 +142,7 @@ If you need more customization, you can build from source following these steps:
 1.Clone this repo
 
 ```sh
-git clone git@github.com:riccox/meilisearch-ui.git --depth=1
+git clone git@github.com:eyeix/meilisearch-ui.git --depth=1
 ```
 
 2.Go into root dir of repo
@@ -169,7 +169,7 @@ VITE_SINGLETON_API_KEY=your-api-key
 >
 > **Security Risk**
 >
-> See this [issue](https://github.com/riccox/meilisearch-ui/issues/161).
+> See this [issue](https://github.com/eyeix/meilisearch-ui/issues/161).
 >
 > `.env.local` file is local only and you should add it in your `.gitignore` to prevent it from being recorded by git.
 >
@@ -213,7 +213,7 @@ If you have no special requirements, you do not need to set this variable.
 > Install [pnpm](https://pnpm.io/installation) first.
 
 ```sh
-git clone git@github.com:riccox/meilisearch-ui.git
+git clone git@github.com:eyeix/meilisearch-ui.git
 
 cd meilisearch-ui
 

@@ -11,9 +11,9 @@
 		"preview": "vite preview",
 		"lint": "biome lint"
 	},
-	"repository": "https://github.com/riccox/meilisearch-ui",
-	"homepage": "https://github.com/riccox/meilisearch-ui#readme",
-	"author": "Ricco X <x@riccox.com> (https://riccox.com)",
+	"repository": "https://github.com/eyeix/meilisearch-ui",
+	"homepage": "https://github.com/eyeix/meilisearch-ui#readme",
+	"author": "Eyeix (https://github.com/eyeix)",
 	"dependencies": {
 		"@arco-design/web-react": "^2.65.0",
 		"@arco-themes/react-meilisearch": "^0.0.1",

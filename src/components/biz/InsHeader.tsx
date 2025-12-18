@@ -22,7 +22,7 @@ export const Header = () => {
 					{t("meilisearch_docs")}
 				</Link>
 				<Link
-					href={"https://github.com/riccox/meilisearch-ui/issues"}
+					href={"https://github.com/eyeix/meilisearch-ui/issues"}
 					target={"_blank"}
 					className={"!inline-flex items-center !no-underline !text-sky-500"}
 					icon={<IconBug size={"1.5em"} />}
@@ -30,7 +30,7 @@ export const Header = () => {
 					{t("issues")}
 				</Link>
 				<Link
-					href={"https://github.com/riccox/meilisearch-ui"}
+					href={"https://github.com/eyeix/meilisearch-ui"}
 					target={"_blank"}
 					className={"!inline-flex items-center !no-underline !text-sky-500"}
 					icon={<IconBrandGithub size={"1.5em"} />}
