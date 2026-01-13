@@ -1,5 +1,6 @@
 "use client";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
+import { useIndexTaskCounts } from "@/hooks/useIndexTaskCounts";
 import { useInstanceStats } from "@/hooks/useInstanceStats";
 import { cn } from "@/lib/cn";
 import { Input } from "@arco-design/web-react";
@@ -51,6 +52,13 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 			href: `/ins/${currentInstance.id}/index/${uid}`,
 		}));
 	}, [stats?.indexes, currentInstance.id]);
+
+	// Get task counts for all indexes
+	const indexUids = useMemo(
+		() => indexList.map((item) => item.uid),
+		[indexList],
+	);
+	const [taskCounts] = useIndexTaskCounts(client, indexUids);
 
 	useEffect(() => {
 		// load index list into fuse collection
@@ -124,9 +132,13 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 										<div className="text-xl px-1">{item.uid}</div>
 									</CardHeader>
 									<CardBody className="space-y-1">
-										<div className="flex items-center justify-between">
-											<div className="flex gap-2">
-												<Tag size="small" color="cyan" className={"mr-auto"}>
+										<div className="flex items-center justify-between gap-2">
+											<div className="flex gap-2 flex-1 min-w-0">
+												<Tag
+													size="small"
+													color="cyan"
+													className={"flex-shrink-0"}
+												>
 													{t("count")}: {item.numberOfDocuments ?? 0}
 												</Tag>
 												{item.isIndexing && (
@@ -134,7 +146,7 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 														<Tag
 															color="amber"
 															size="small"
-															className={"flex flex-nowrap"}
+															className={"flex flex-nowrap flex-shrink-0"}
 														>
 															<IconAlertTriangle size={"1em"} />
 															<div>{t("indexing")}...</div>
@@ -142,7 +154,7 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 													</Tooltip>
 												)}
 											</div>
-											<div className="flex gap-2">
+											<div className="flex gap-2 flex-shrink-0">
 												<Tooltip content={t("settings")}>
 													<Button
 														theme="light"
@@ -159,22 +171,44 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 														}
 													/>
 												</Tooltip>
-												<Tooltip content={t("tasks")}>
-													<Button
-														theme="light"
-														type="primary"
-														icon={
-															<div className="i-lucide:workflow w-1em h-1em" />
-														}
-														size="small"
-														onClick={() =>
-															navigate({
-																to: "tasks",
-																search: { indexUids: [item.uid] },
-																from: "/ins/$insID",
-															})
-														}
-													/>
+												<Tooltip
+													content={
+														taskCounts[item.uid] > 0
+															? t("tasks_count_tooltip", {
+																	count: taskCounts[item.uid],
+																})
+															: t("tasks")
+													}
+												>
+													<div className="relative">
+														<Button
+															theme="light"
+															type="primary"
+															icon={
+																<div className="i-lucide:workflow w-1em h-1em" />
+															}
+															size="small"
+															onClick={() =>
+																navigate({
+																	to: "tasks",
+																	search: { indexUids: [item.uid] },
+																	from: "/ins/$insID",
+																})
+															}
+														/>
+														{taskCounts[item.uid] > 0 && (
+															<span
+																className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[1.25rem] h-5 flex items-center justify-center px-1 z-10"
+																title={t("tasks_count", {
+																	count: taskCounts[item.uid],
+																})}
+															>
+																{taskCounts[item.uid] > 99
+																	? "99+"
+																	: taskCounts[item.uid]}
+															</span>
+														)}
+													</div>
 												</Tooltip>
 											</div>
 										</div>
@@ -214,6 +248,7 @@ export const IndexList: FC<Props> = ({ className = "", client }) => {
 			updateState,
 			statsQuery.refetch,
 			isLoading,
+			taskCounts,
 		],
 	);
 };
