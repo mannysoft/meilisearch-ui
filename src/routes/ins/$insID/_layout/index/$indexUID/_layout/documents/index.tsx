@@ -98,6 +98,8 @@ export const Page = () => {
 		refetchOnWindowFocus: searchAutoRefresh,
 		refetchOnReconnect: searchAutoRefresh,
 		queryFn: async () => {
+			// For sort field, prefer searchForm.values over debouncedSearchFormValue
+			// because sort changes should be immediate (no debounce needed)
 			const {
 				q,
 				limit,
@@ -109,8 +111,10 @@ export const Page = () => {
 				hybridEmbedder,
 				hybridSemanticRatio,
 			} = {
-				...searchForm.values,
 				...(debouncedSearchFormValue as typeof searchForm.values),
+				...searchForm.values,
+				// Explicitly use searchForm.values.sort to ensure immediate sort changes are applied
+				sort: searchForm.values.sort,
 			};
 			// prevent app error from request param invalid
 			if (searchForm.validate().hasErrors) return emptySearchResult;
@@ -161,6 +165,19 @@ export const Page = () => {
 		await searchDocumentsQuery.refetch();
 	}, [searchDocumentsQuery]);
 
+	const onSortChange = useCallback(
+		(sort: string) => {
+			// Update form value
+			searchForm.setFieldValue("sort", sort);
+			// Manually trigger query with updated sort value to avoid debounce delay
+			// Use setTimeout to ensure form value is updated before refetch
+			setTimeout(() => {
+				searchDocumentsQuery.refetch();
+			}, 0);
+		},
+		[searchForm, searchDocumentsQuery],
+	);
+
 	// use this to refresh search when typing, DO NOT use useQuery dependencies (will cause unknown rerender error).
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -192,6 +209,8 @@ export const Page = () => {
 					refetchDocs={searchDocumentsQuery.refetch}
 					currentIndex={currentIndex.index}
 					indexPrimaryKey={indexPrimaryKeyQuery.data!}
+					sort={searchForm.values.sort}
+					onSortChange={onSortChange}
 				/>
 			</div>
 		),
@@ -208,6 +227,7 @@ export const Page = () => {
 			indexPrimaryKeyQuery.data,
 			searchParams.listType,
 			currentInstance.host,
+			onSortChange,
 		],
 	);
 };

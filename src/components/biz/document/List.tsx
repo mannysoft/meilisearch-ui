@@ -16,10 +16,11 @@ import type { Index } from "meilisearch";
 import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Copyable } from "../../common/Copyable";
-import { AttrTags } from "./AttrTags";
+import { AttrTagsNoSort } from "./AttrTagsNoSort";
 import { GridItem } from "./GridItem";
 import { JSONItem } from "./JSONItem";
 import { JsonEditor } from "../../common/JsonEditor";
+import { SortArrows } from "./SortArrows";
 import { MdOutlineRawOn } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
@@ -162,12 +163,63 @@ interface Props {
 	type?: ListType;
 	docs?: Doc[];
 	refetchDocs: () => void;
+	sort?: string;
+	onSortChange?: (sort: string) => void;
 }
+
+// Parse sort string to extract current sort field and direction
+// Format: "field:asc, field2:desc" -> { field: "field", direction: "asc" }
+const parseSortState = (
+	sort: string | undefined,
+): {
+	field: string;
+	direction: "asc" | "desc";
+} | null => {
+	if (!sort || !sort.trim()) {
+		return null;
+	}
+
+	// Match sort expressions like "field:asc" or "field:desc"
+	const sortExpressions = sort.match(
+		/(([\w\.]+)|(_geoPoint\([\d\.,\s]+\))){1}\:((asc)|(desc))/g,
+	);
+
+	if (!sortExpressions || sortExpressions.length === 0) {
+		return null;
+	}
+
+	// Get the first sort expression (primary sort)
+	const firstSort = sortExpressions[0].trim();
+	const match = firstSort.match(/^([^:]+):(asc|desc)$/);
+
+	if (!match) {
+		return null;
+	}
+
+	return {
+		field: match[1],
+		direction: match[2] as "asc" | "desc",
+	};
+};
+
+// Convert sort state to Semi-UI Table sortOrder format
+// "asc" -> "ascend", "desc" -> "descend", null -> null
+const convertToSortOrder = (
+	sortState: { field: string; direction: "asc" | "desc" } | null,
+	field: string,
+): "ascend" | "descend" | null => {
+	if (!sortState || sortState.field !== field) {
+		return null;
+	}
+	return sortState.direction === "asc" ? "ascend" : "descend";
+};
 
 export const DocumentList = ({
 	docs = [],
 	type = "json",
 	currentIndex,
+	sort,
+	onSortChange,
 }: Props) => {
 	const { t } = useTranslation("document");
 	const client = useMeiliClient();
@@ -189,6 +241,10 @@ export const DocumentList = ({
 	const indexSettings = useMemo(() => {
 		return indexSettingsQuery.data;
 	}, [indexSettingsQuery.data]);
+
+	const sortState = useMemo(() => {
+		return parseSortState(sort);
+	}, [sort]);
 
 	const editDocumentMutation = useMutation({
 		mutationFn: async ({ docs }: { docs: object[] }) => {
@@ -354,34 +410,46 @@ export const DocumentList = ({
 										),
 									),
 								]
-									.map(
-										(i) =>
-											({
-												title: (
-													<div className="flex items-center gap-1">
-														<p>{i}</p>
-														{indexSettings && (
-															<AttrTags
+									.map((i) => {
+										const isSortable =
+											indexSettings?.sortableAttributes?.includes(i);
+										const currentSortOrder = convertToSortOrder(sortState, i);
+
+										return {
+											title: (
+												<div className="flex items-center gap-1.5">
+													<p>{i}</p>
+													{indexSettings && (
+														<div className="flex items-center gap-1">
+															<AttrTagsNoSort
 																attr={i}
 																indexSettings={indexSettings}
 															/>
-														)}
-													</div>
-												),
-												dataIndex: i,
-												width: "15rem",
-												ellipsis: true,
-												render(_col, item) {
-													return (
-														<ValueDisplay
-															name={i}
-															value={item[i]}
-															dateParser={false}
-														/>
-													);
-												},
-											}) as ColumnProps,
-									)
+															<SortArrows
+																attr={i}
+																indexSettings={indexSettings}
+																sortState={sortState}
+																currentSort={sort || ""}
+																onSortChange={onSortChange || (() => {})}
+															/>
+														</div>
+													)}
+												</div>
+											),
+											dataIndex: i,
+											width: "15rem",
+											ellipsis: true,
+											render(_col, item) {
+												return (
+													<ValueDisplay
+														name={i}
+														value={item[i]}
+														dateParser={false}
+													/>
+												);
+											},
+										} as ColumnProps;
+									})
 									?.concat([
 										{
 											title: t("common:actions"),
@@ -464,6 +532,9 @@ export const DocumentList = ({
 			t,
 			type,
 			tableScrollY,
+			sortState,
+			sort,
+			onSortChange,
 		],
 	);
 };
