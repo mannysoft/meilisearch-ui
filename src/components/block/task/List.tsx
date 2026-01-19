@@ -28,6 +28,7 @@ export const TaskList: FC<{
 			{
 				title: t("indexes"),
 				dataIndex: "indexUid",
+				width: 180,
 				render: (val) =>
 					val ? (
 						<Link
@@ -44,6 +45,7 @@ export const TaskList: FC<{
 			{
 				title: t("common:type"),
 				dataIndex: "type",
+				width: 180,
 				render: (_) => <p className="break-all">{t(`type.${_}`)}</p>,
 			},
 			{
