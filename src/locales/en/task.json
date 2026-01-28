@@ -42,5 +42,7 @@
 	},
 	"detail": {
 		"title": "Task Detail"
-	}
+	},
+	"total": "Total: {{count}}",
+	"empty": "No tasks found"
 }

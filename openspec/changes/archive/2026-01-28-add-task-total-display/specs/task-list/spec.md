@@ -1,8 +1,5 @@
-# task-list Specification
+## MODIFIED Requirements
 
-## Purpose
-This specification defines requirements for displaying the task list table in the application, including column width constraints to ensure content readability across common screen sizes.
-## Requirements
 ### Requirement: Task List Column Layout
 The task list table SHALL display all columns with appropriate widths that ensure content readability across common screen sizes, including moderately wide screens (1300px and wider).
 
@@ -24,6 +21,8 @@ The task list table SHALL display all columns with appropriate widths that ensur
 - **AND** the "Indexes" and "Types" columns SHALL NOT be compressed to unreadable widths
 - **AND** the table layout SHALL remain stable and usable across the supported screen size range
 
+## ADDED Requirements
+
 ### Requirement: Task Total Display
 The task list page SHALL display the total count of tasks matching the current filter criteria.
 
@@ -42,4 +41,3 @@ The task list page SHALL display the total count of tasks matching the current f
 - **WHEN** the task list page is displayed
 - **THEN** the total count label SHALL be displayed in the user's selected language
 - **AND** the label SHALL support both English and Chinese translations
-
