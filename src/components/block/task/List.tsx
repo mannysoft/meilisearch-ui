@@ -49,6 +49,15 @@ export const TaskList: FC<{
 				render: (_) => <p className="break-all">{t(`type.${_}`)}</p>,
 			},
 			{
+				title: t("received_documents"),
+				dataIndex: "details",
+				width: 100,
+				render: (_, item) => {
+					const receivedDocuments = item.details?.receivedDocuments;
+					return receivedDocuments !== undefined ? receivedDocuments : "-";
+				},
+			},
+			{
 				title: t("common:status"),
 				dataIndex: "status",
 				width: 120,

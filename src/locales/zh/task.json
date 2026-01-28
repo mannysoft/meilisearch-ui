@@ -3,6 +3,7 @@
 	"enqueued_at": "入列于",
 	"started_at": "开始于",
 	"finished_at": "结束于",
+	"received_documents": "接收文档数",
 	"search": {
 		"placeholder": "搜索任务"
 	},

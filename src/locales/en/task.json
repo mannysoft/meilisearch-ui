@@ -3,6 +3,7 @@
 	"enqueued_at": "Enqueued At",
 	"started_at": "Started At",
 	"finished_at": "Finished At",
+	"received_documents": "Received Documents",
 	"search": {
 		"placeholder": "Search tasks"
 	},
