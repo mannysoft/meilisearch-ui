@@ -1,6 +1,7 @@
 import { LoaderPage } from "@/components/common/Loader";
 import { Filter } from "@/components/block/task/Filter";
 import { TaskList } from "@/components/block/task/List";
+import { TaskTotal } from "@/components/block/task/Total";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
@@ -89,20 +90,28 @@ const Page = () => {
 		);
 	}, [query.data?.pages]);
 
+	const total = useMemo(() => {
+		// Get total from the first page of results
+		return query.data?.pages[0]?.total ?? undefined;
+	}, [query.data?.pages]);
+
 	return useMemo(
 		() => (
 			<div className="flex-1 max-h-fit overflow-hidden">
-				<main className="flex flex-col gap-4 h-full">
+				<main className="flex flex-col gap-1 h-full">
 					<Filter state={state} updateState={updateState} />
+					<TaskTotal total={total} />
 					<TaskList
+						client={client}
 						fetchNextPage={query.fetchNextPage}
 						instanceID={String(currentInstance?.id)}
 						list={list}
+						onRefresh={query.refetch}
 					/>
 				</main>
 			</div>
 		),
-		[currentInstance?.id, state, query, list],
+		[currentInstance?.id, state, query, list, total, client],
 	);
 };
 

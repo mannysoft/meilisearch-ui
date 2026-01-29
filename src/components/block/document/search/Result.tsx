@@ -19,6 +19,8 @@ type Props = {
 	currentIndex: Index;
 	indexPrimaryKey: string;
 	onListTypeChange: (v: ListType) => void;
+	sort?: string;
+	onSortChange?: (sort: string) => void;
 };
 
 export const Result: FC<Props> = ({
@@ -31,6 +33,8 @@ export const Result: FC<Props> = ({
 	currentIndex,
 	indexPrimaryKey,
 	onListTypeChange,
+	sort,
+	onSortChange,
 }) => {
 	const { t } = useTranslation("document");
 
@@ -102,6 +106,8 @@ export const Result: FC<Props> = ({
 							primaryKey: indexPrimaryKey,
 						}))}
 						refetchDocs={refetchDocs}
+						sort={sort}
+						onSortChange={onSortChange}
 					/>
 				) : (
 					<div className="scale-75">

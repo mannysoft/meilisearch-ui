@@ -40,6 +40,7 @@ export const Page = () => {
 		sort: "",
 		listType: "json",
 		showRankingScore: false,
+		rankingScoreThreshold: 0,
 		enableHybrid: false,
 		hybridEmbedder: "",
 		hybridSemanticRatio: 0.5,
@@ -98,6 +99,8 @@ export const Page = () => {
 		refetchOnWindowFocus: searchAutoRefresh,
 		refetchOnReconnect: searchAutoRefresh,
 		queryFn: async () => {
+			// For sort field, prefer searchForm.values over debouncedSearchFormValue
+			// because sort changes should be immediate (no debounce needed)
 			const {
 				q,
 				limit,
@@ -105,12 +108,15 @@ export const Page = () => {
 				filter,
 				sort = "",
 				showRankingScore,
+				rankingScoreThreshold,
 				enableHybrid,
 				hybridEmbedder,
 				hybridSemanticRatio,
 			} = {
-				...searchForm.values,
 				...(debouncedSearchFormValue as typeof searchForm.values),
+				...searchForm.values,
+				// Explicitly use searchForm.values.sort to ensure immediate sort changes are applied
+				sort: searchForm.values.sort,
 			};
 			// prevent app error from request param invalid
 			if (searchForm.validate().hasErrors) return emptySearchResult;
@@ -130,6 +136,8 @@ export const Page = () => {
 					filter,
 					sort: sortExpressions.map((v) => v.trim()),
 					showRankingScore,
+					rankingScoreThreshold:
+						rankingScoreThreshold > 0 ? rankingScoreThreshold : undefined,
 					hybrid: enableHybrid
 						? {
 								embedder: hybridEmbedder,
@@ -160,6 +168,19 @@ export const Page = () => {
 	const onSearchSubmit = useCallback(async () => {
 		await searchDocumentsQuery.refetch();
 	}, [searchDocumentsQuery]);
+
+	const onSortChange = useCallback(
+		(sort: string) => {
+			// Update form value
+			searchForm.setFieldValue("sort", sort);
+			// Manually trigger query with updated sort value to avoid debounce delay
+			// Use setTimeout to ensure form value is updated before refetch
+			setTimeout(() => {
+				searchDocumentsQuery.refetch();
+			}, 0);
+		},
+		[searchForm, searchDocumentsQuery],
+	);
 
 	// use this to refresh search when typing, DO NOT use useQuery dependencies (will cause unknown rerender error).
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -192,6 +213,8 @@ export const Page = () => {
 					refetchDocs={searchDocumentsQuery.refetch}
 					currentIndex={currentIndex.index}
 					indexPrimaryKey={indexPrimaryKeyQuery.data!}
+					sort={searchForm.values.sort}
+					onSortChange={onSortChange}
 				/>
 			</div>
 		),
@@ -208,6 +231,7 @@ export const Page = () => {
 			indexPrimaryKeyQuery.data,
 			searchParams.listType,
 			currentInstance.host,
+			onSortChange,
 		],
 	);
 };

@@ -3,6 +3,7 @@
 	"enqueued_at": "Enqueued At",
 	"started_at": "Started At",
 	"finished_at": "Finished At",
+	"received_documents": "Received Documents",
 	"search": {
 		"placeholder": "Search tasks"
 	},
@@ -42,5 +43,16 @@
 	},
 	"detail": {
 		"title": "Task Detail"
-	}
+	},
+	"total": "Total: {{count}}",
+	"empty": "No tasks found",
+	"cancel": {
+		"button": "Cancel",
+		"confirm_title": "Cancel Task",
+		"confirm_content": "Are you sure you want to cancel task #{{uid}}? This action cannot be undone.",
+		"success": "Task cancellation request submitted",
+		"error": "Failed to cancel task: {{error}}"
+	},
+	"actions": "Actions",
+	"indexes": "Indexes"
 }
